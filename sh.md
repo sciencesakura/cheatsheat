@@ -73,7 +73,7 @@
 |<i>a</i> -ge <i>b</i>|整数として評価||
 |<i>a</i> -lt <i>b</i>|整数として評価||
 |<i>a</i> -le <i>b</i>|整数として評価||
-|-x <i>string</i>|<i>string</i>がnull||
+|-z <i>string</i>|<i>string</i>がnull||
 |-n <i>string</i>|<i>string</i>がnullでない||
 |-e <i>path</i>|<i>path</i>が存在する||
 |-f <i>path</i>|<i>path</i>が存在しファイルである||
