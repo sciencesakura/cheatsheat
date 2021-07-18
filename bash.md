@@ -1,5 +1,25 @@
 # Bash
 
+## 設定ファイル
+
+ログイン・シェルが起動するとき次のファイルを読み込む.
+
+1. `/etc/profile`
+1. 次のうち最初に見つかったファイル
+    1. `$HOME/.bash_profile`
+    1. `$HOME/.bash_login`
+    1. `$HOME/.profile`
+
+`.profile` はBourne Shell, Korn Shellと共有できる.
+
+ログイン・シェルが終了するとき次のファイルを読み込む.
+
+1. `$HOME/.bash_logout`
+
+ログイン・シェルでないインタラクティブ・シェルが起動するとき次のファイルを読み込む.
+
+1. `$HOME/.bashrc`
+
 ## キー操作（emacsモード）
 
 ### カーソル移動

@@ -46,3 +46,58 @@
 |-x <i>path</i>|<i>path</i>が存在しパーミッション `x` が付いている||
 |<i>path1</i> -nt <i>path2</i>|<i>path1</i>が<i>path2</i>より新しい|bash|
 |<i>path1</i> -ot <i>path2</i>|<i>path1</i>が<i>path2</i>より古い|bash|
+
+### フロー制御
+
+#### if-else
+
+```sh
+if expression1; then
+  statement1
+elif expression2; then
+  statement2
+fi
+```
+
+#### for
+
+```sh
+for item in list; do
+  statement
+done
+```
+
+#### case
+
+```sh
+case expression in
+  pattern1)
+    statement1;;
+  pattern2)
+    statement2;;
+esac
+```
+
+#### select（bash, ksh拡張）
+
+```sh
+select i in list; do
+  statement
+done
+```
+
+#### while
+
+```sh
+while expression; do
+  statement
+done
+```
+
+#### until
+
+```sh
+until expression; do
+  statement
+done
+```
