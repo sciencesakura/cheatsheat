@@ -2,8 +2,6 @@
 
 ## zip
 
-※非POSIX
-
 ```sh
 zip [options] [-e [-P passwd]] archive path ... [-i path ...] [-x path ...]
 ```
@@ -48,10 +46,9 @@ unzip hoge.zip foo/bar
 
 ## gzip
 
-※非POSIX
-
 ```sh
 gzip [-ckr] path ...
+
 gunzip [-kr] path ...
 ```
 
@@ -59,16 +56,15 @@ gunzip [-kr] path ...
 |-|-|
 |-c|出力を標準出力にする|
 |-k|元ファイルを残す|
-|-r|ディレクトリ配下のファイルそれぞれを処理対象とする|
+|-r|ディレクトリ配下のファイルを個々に処理対象とする|
 
 拡張子 `.gz` は省略可能。
 
 ## bzip2
 
-※非POSIX
-
 ```sh
 bzip2 [-ck] path ...
+
 bunzip2 [-k] path ...
 ```
 
@@ -79,10 +75,9 @@ bunzip2 [-k] path ...
 
 ## xz
 
-※非POSIX
-
 ```sh
 xz [-ck] path ...
+
 unxz [-k] file ...
 ```
 
@@ -92,8 +87,6 @@ unxz [-k] file ...
 |-k|元ファイルを残す|
 
 ## tar
-
-※非POSIX
 
 ```sh
 tar [options] [-f archive] [path path ...]
@@ -134,18 +127,14 @@ tar xvzf hoge.tar.gz foo/bar/baz
 
 ## 7z
 
-※非POSIX
-
 ```sh
-7z a [-ppasswd] archive path ...
-7z x [-ppasswd] [-ooutdir] archive
-7z l archive
+7z [alx] [options] archive [path ...]
 ```
 
 |オプション|説明|
 |-|-|
 |a|アーカイヴに追加する|
-|x|アーカイヴを展開する|
 |l|アーカイヴの内容を一覧表示する|
-|-p<i>passwd</i>|パスワードを指定する|
+|x|アーカイヴを展開する|
 |-o<i>outdir</i>|展開先を指定する|
+|-p<i>passwd</i>|パスワードを指定する|

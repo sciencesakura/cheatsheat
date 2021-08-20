@@ -78,7 +78,9 @@ case expression in
 esac
 ```
 
-#### select（bash, ksh拡張）
+#### select
+
+bash, ksh拡張。
 
 ```sh
 select i in list; do
