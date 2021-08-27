@@ -2,6 +2,54 @@
 
 ## スクリプト
 
+### 配列 \[bash\]
+
+#### 書き込み
+
+```sh
+# 添字指定して代入
+names[0]=Alice
+names[1]=Bob
+names[2]=Carol
+
+# 疎な配列も作れる
+names[10]=Dave
+
+# 添字なしは[0]と同じ
+names=Anne
+
+# 複合代入 (compound assignment)
+names2=([2]=Carol [1]=Bob [0]=Alice)
+
+# 添字は省略可 (記載順通りとなる)
+names3=(Alice Bob Carol)
+```
+
+#### 読み取り
+
+```sh
+# 添字指定して参照
+echo ${names[0]}
+echo ${names[1]}
+
+# 添字なしは[0]と同じ
+echo $names
+
+# nullでない要素をIFSの先頭文字で結合した1ワード
+echo "${names[*]}"
+
+# nullでない要素を個々のワードに展開
+echo "${names[@]}"
+
+# nullでない要素の添字 (*と@の違いは同上)
+echo "${!names[*]}"
+echo "${!names[@]}"
+
+# 要素数 (どちらも同じ)
+echo ${#names[*]}
+echo ${#names[@]}
+```
+
 ### パラメータ展開
 
 |式|説明|拡張|
