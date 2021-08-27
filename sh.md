@@ -4,10 +4,17 @@
 
 ### 配列 \[bash\]
 
+#### 宣言
+
+```sh
+# 省略可
+declare -a names
+```
+
 #### 書き込み
 
 ```sh
-# 添字指定して代入
+# 添字を指定して代入
 names[0]=Alice
 names[1]=Bob
 names[2]=Carol
@@ -28,7 +35,7 @@ names3=(Alice Bob Carol)
 #### 読み取り
 
 ```sh
-# 添字指定して参照
+# 添字を指定して参照
 echo ${names[0]}
 echo ${names[1]}
 
@@ -48,6 +55,46 @@ echo "${!names[@]}"
 # 要素数 (どちらも同じ)
 echo ${#names[*]}
 echo ${#names[@]}
+```
+
+### 連想配列 \[bash\]
+
+#### 宣言
+
+```sh
+declare -A score
+```
+
+#### 書き込み
+
+```sh
+# キーを指定して代入
+score[Alice]=100
+score[Bob]=80
+
+# 複合代入 (compound assignment)
+score2=([Alice]=100 [Bob]=80)
+```
+
+#### 読み取り
+
+```sh
+# キーを指定して参照
+echo ${score[Alice]}
+
+# nullでない要素をIFSの先頭文字で結合した1ワード
+echo "${score[*]}"
+
+# nullでない要素を個々のワードに展開
+echo "${score[@]}"
+
+# nullでない要素のキー (*と@の違いは同上)
+echo "${!score[*]}"
+echo "${!score[@]}"
+
+# 要素数 (どちらも同じ)
+echo ${#score[*]}
+echo ${#score[@]}
 ```
 
 ### パラメータ展開
