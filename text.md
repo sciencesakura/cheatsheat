@@ -38,22 +38,30 @@ iconv -f CP932 -t UTF-8 FILE  # CP932 to UTF-8
 
 指定できるエンコーディングは `iconv -l` で確認できる。
 
-## BOMの付け外し（UTF-8）
+## BOM（UTF-8）
 
-BOM: `EF BB BF`
+UTF-8文書の先頭3byteが `0xEF 0xBB 0xBF` の場合、その文書のエンコーディングはBOM付きUTF-8。
 
-### BOMを付ける
+### BOMの有無を確認する
 
 ```sh
-nkf --oc=UTF-8-BOM FILE
+file FILE
 
-nkf --overwrite --oc=UTF-8-BOM FILE
+od -t x1 -N 3 FILE
 ```
 
-### BOMを外す
+### BOMを追加する
 
 ```sh
-nkf --oc=UTF-8 FILE
+nkf --ic=UTF-8 --oc=UTF-8-BOM FILE
 
-nkf --overwrite --oc=UTF-8 FILE
+nkf --overwrite --ic=UTF-8 --oc=UTF-8-BOM FILE
+```
+
+### BOMを削除する
+
+```sh
+nkf --ic=UTF-8-BOM --oc=UTF-8 FILE
+
+nkf --overwrite --ic=UTF-8-BOM --oc=UTF-8 FILE
 ```
