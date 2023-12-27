@@ -1,6 +1,8 @@
 # チートシート
 
-- [bash](bash.md)
-- [curl](curl.md)
 - [シェル](sh.md)
-- [テキスト操作](text.md)
+  - [Bash](bash.md)
+- アーカイブ
+  - [Zip](zip.md)
+  - [Gzip](gzip.md)
+  - [Tar](tar.md)

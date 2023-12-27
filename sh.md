@@ -1,200 +1,133 @@
-# シェル
+# Shell
 
-## スクリプト
-
-### 配列 \[bash\]
-
-#### 宣言
-
-```sh
-# 省略可
-declare -a names
-```
-
-#### 書き込み
-
-```sh
-# 添字を指定して代入
-names[0]=Alice
-names[1]=Bob
-names[2]=Carol
-
-# 疎な配列も作れる
-names[10]=Dave
-
-# 添字なしは[0]と同じ
-names=Anne
-
-# 複合代入 (compound assignment)
-names2=([2]=Carol [1]=Bob [0]=Alice)
-
-# 添字は省略可 (記載順通りとなる)
-names3=(Alice Bob Carol)
-```
-
-#### 読み取り
-
-```sh
-# 添字を指定して参照
-echo ${names[0]}
-echo ${names[1]}
-
-# 添字なしは[0]と同じ
-echo $names
-
-# nullでない要素をIFSの先頭文字で結合した1ワード
-echo "${names[*]}"
-
-# nullでない要素を個々のワードに展開
-echo "${names[@]}"
-
-# nullでない要素の添字 (*と@の違いは同上)
-echo "${!names[*]}"
-echo "${!names[@]}"
-
-# 要素数 (どちらも同じ)
-echo ${#names[*]}
-echo ${#names[@]}
-```
-
-### 連想配列 \[bash\]
-
-#### 宣言
-
-```sh
-declare -A score
-```
-
-#### 書き込み
-
-```sh
-# キーを指定して代入
-score[Alice]=100
-score[Bob]=80
-
-# 複合代入 (compound assignment)
-score2=([Alice]=100 [Bob]=80)
-```
-
-#### 読み取り
-
-```sh
-# キーを指定して参照
-echo ${score[Alice]}
-
-# nullでない要素をIFSの先頭文字で結合した1ワード
-echo "${score[*]}"
-
-# nullでない要素を個々のワードに展開
-echo "${score[@]}"
-
-# nullでない要素のキー (*と@の違いは同上)
-echo "${!score[*]}"
-echo "${!score[@]}"
-
-# 要素数 (どちらも同じ)
-echo ${#score[*]}
-echo ${#score[@]}
-```
+## リファレンス
 
 ### パラメータ展開
 
-|式|説明|拡張|
-|-|-|-|
-|`${parameter:-word}`|`parameter` がnullなら `word` を返す||
-|`${parameter:=word}`|`parameter` がnullなら `word` を返し `parameter` に代入する||
-|`${parameter:?word}`|`parameter` がnullなら `word` をstderrに出力してシェルを終了する||
-|`${parameter:+word}`|`parameter` がnullでなければ `word` を返す||
-|`${parameter:offset:length}`|部分文字列を返す。 `offset` は0始まり。末尾までを取得する場合 `:length` は省略可|bash|
-|`${#parameter}`|長さを返す||
-|`${parameter#pattern}`|`pattern` と前方最短一致した部分を除去して返す||
-|`${parameter##pattern}`|`pattern` と前方最長一致した部分を除去して返す||
-|`${parameter%pattern}`|`pattern` と後方最短一致した部分を除去して返す||
-|`${parameter%%pattern}`|`pattern` と後方最長一致した部分を除去して返す||
-|`${parameter/pattern/replacement}`|最初に一致した箇所を置換|bash|
-|`${parameter//pattern/replacement}`|一致した箇所すべてを置換|bash|
+|式|説明|Bash拡張|
+|---|---|:---:|
+|`${parameter:-word}`|nullなら `word` を返す||
+|`${parameter:=word}`|nullなら `word` を `parameter` に代入して返す||
+|`${parameter:?word}`|nullなら `word` をstderrに出力して終了する||
+|`${parameter:+word}`|nullでなければ `word` を返す||
+|`${parameter:offset:length}`|部分文字列を返す（ `:length` 省略可）|✔|
+|`${#parameter}`|文字列の長さを返す||
+|`${parameter#pattern}`|前方最短一致した部分を除去して返す||
+|`${parameter##pattern}`|前方最長一致した部分を除去して返す||
+|`${parameter%pattern}`|後方最短一致した部分を除去して返す||
+|`${parameter%%pattern}`|後方最長一致した部分を除去して返す||
+|`${parameter/pattern/replacement}`|最初に一致した部分を置換して返す|✔|
+|`${parameter//pattern/replacement}`|一致した部分すべてを置換して返す|✔|
+|`${parameter/#pattern/replacement}`|先頭で一致した部分を置換して返す|✔|
+|`${parameter/%pattern/replacement}`|末尾で一致した部分を置換して返す|✔|
+|`${parameter^pattern}`|一致した先頭一文字を大文字にして返す|✔|
+|`${parameter^^pattern}`|一致した部分を大文字にして返す|✔|
+|`${parameter,pattern}`|一致した先頭一文字を子文字にして返す|✔|
+|`${parameter,,pattern}`|一致した部分を子文字にして返す|✔|
+|`${parameter[*]}`|（配列・連想配列）全要素をIFSの先頭一文字で結合して返す|✔|
+|`${parameter[@]}`|（配列・連想配列）全要素を返す|✔|
+|`${!parameter[*]}`|（配列・連想配列）全添字をIFSの先頭一文字で結合して返す|✔|
+|`${!parameter[@]}`|（配列・連想配列）全添字を返す|✔|
+|`${#parameter[*]}`|（配列・連想配列）要素数を返す|✔|
 
 ### 評価演算子
 
-|式|説明|拡張|
-|-|-|-|
-|<i>a</i> = <i>b</i>|||
-|<i>a</i> != <i>b</i>|||
-|<i>a</i> =~ <i>regex</i>|`[[ ]]` の中で利用可|bash|
-|<i>a</i> < <i>b</i>||bash|
-|<i>a</i> > <i>b</i>||bash|
-|<i>a</i> -eq <i>b</i>|整数として評価||
-|<i>a</i> -ne <i>b</i>|整数として評価||
-|<i>a</i> -gt <i>b</i>|整数として評価||
-|<i>a</i> -ge <i>b</i>|整数として評価||
-|<i>a</i> -lt <i>b</i>|整数として評価||
-|<i>a</i> -le <i>b</i>|整数として評価||
-|-z <i>string</i>|<i>string</i>がnull||
-|-n <i>string</i>|<i>string</i>がnullでない||
-|-e <i>path</i>|<i>path</i>が存在する||
-|-f <i>path</i>|<i>path</i>が存在しファイルである||
-|-s <i>path</i>|<i>path</i>が存在し空でないファイルである||
-|-d <i>path</i>|<i>path</i>が存在しディレクトリである||
-|-h <i>path</i>|<i>path</i>が存在しシンボリック・リンクである||
-|-r <i>path</i>|<i>path</i>が存在しパーミッション `r` が付いている||
-|-w <i>path</i>|<i>path</i>が存在しパーミッション `w` が付いている||
-|-x <i>path</i>|<i>path</i>が存在しパーミッション `x` が付いている||
-|<i>path1</i> -nt <i>path2</i>|<i>path1</i>が<i>path2</i>より新しい|bash|
-|<i>path1</i> -ot <i>path2</i>|<i>path1</i>が<i>path2</i>より古い|bash|
+|式|説明|Bash拡張|
+|---|---|:---:|
+|`-d file`|ファイルが存在しディレクトリである||
+|`-e file`|ファイルが存在する||
+|`-f file`|ファイルが存在しレギュラーファイルである||
+|`-r file`|ファイルが存在し読取可能である||
+|`-s file`|ファイルが存在し空でない||
+|`-w file`|ファイルが存在し書込可能である||
+|`-x file`|ファイルが存在し実行可能である||
+|`file1 -nt file2`|`file1` が `file2` より新しい|✔|
+|`file1 -ot file2`|`file1` が `file2` より古い|✔|
+|`-z string`|文字列が空||
+|`-n string`|文字列が空でない||
+|`string1 = string2`|||
+|`string1 != string2`|||
+|`string1 < string2`||✔|
+|`string1 > string2`||✔|
+|`int1 -eq int2`|||
+|`int1 -ne int2`|||
+|`int1 -lt int2`|||
+|`int1 -le int2`|||
+|`int1 -gt int2`|||
+|`int1 -ge int2`|||
 
-### フロー制御
+`[[` でのみ使えるもの:
 
-#### if-else
+|式|説明|Bash拡張|
+|---|---|:---:|
+|`string =~ regex`|正規表現にマッチする|✔|
+
+## イディオム
+
+### 条件判定
 
 ```sh
-if expression1; then
-  statement1
-elif expression2; then
-  statement2
-fi
+# NOT
+[ ! EXPR ]
+
+# AND
+[ EXPR1 ] && [ EXPR2 ]
+
+# AND（古）
+[ EXPR1 -a EXPR2 ]
+
+# OR
+[ EXPR1 ] || [ EXPR2 ]
+
+# OR（古）
+[ EXPR1 -o EXPR2 ]
 ```
 
-#### for
+### 配列［Bash拡張］
 
 ```sh
-for item in list; do
-  statement
+declare -a names
+
+names=(Alice Bob Carol)
+names[3]=Dave
+
+for nm in "${names[@]}"; do
+  echo "$nm"
 done
 ```
 
-#### case
+### 連想配列［Bash拡張］
 
 ```sh
-case expression in
-  pattern1)
-    statement1;;
-  pattern2)
-    statement2;;
-esac
-```
+declare -A score
 
-#### select
+score=([Alice]=100 [Bob]=80 [Carol]=60)
+score[Dave]=90
 
-bash, ksh拡張。
-
-```sh
-select i in list; do
-  statement
+for sc in "${!score[@]}"; do
+  echo "$sc=${score[$sc]}"
 done
 ```
 
-#### while
+### 各ファイルに対してなにかする
 
 ```sh
-while expression; do
-  statement
+# ファイル1つずつにコマンド実行
+find . -type f -exec CMD {} \;
+
+# ファイルを複数まとめてコマンド実行
+find . -type f -exec CMD {} +
+
+# 一コマンドで済まない場合はfor文で
+for i in $(find . -type f); do
+  ...
 done
 ```
 
-#### until
+### テキストファイルの各行に対してなにかする
 
 ```sh
-until expression; do
-  statement
-done
+while IFS= read -r line; do
+  ...
+done < FILE
 ```
